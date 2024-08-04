@@ -1,6 +1,6 @@
-# resource "aws_instance" "necesse" {
-#   ami           = data.aws_ami.ubuntu.id
-#   instance_type = var.instance_type
+resource "aws_instance" "necesse" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = var.instance_type
 
 #   instance_market_options {
 #     market_type = "spot"
@@ -11,23 +11,19 @@
 #     }
 #   }
 
-#   tags = {
-#     Name = "necesseServer"
-#     # env_s3bucket = aws_s3_bucket.bucket.id
-#     dns_hostname = "necesse"
-#     dns_zone     = var.hosted_zone
-#   }
+  tags = {
+    Name = "necesseServer"
+    # env_s3bucket = aws_s3_bucket.bucket.id
+    dns_hostname = "necesse"
+    dns_zone     = var.hosted_zone
+  }
 
-#   vpc_security_group_ids = [aws_security_group.necesse_security.id]
-#   iam_instance_profile   = aws_iam_instance_profile.necesse_profile.id
+  vpc_security_group_ids = [aws_security_group.necesse_security.id]
+  iam_instance_profile   = aws_iam_instance_profile.necesse_profile.id
 
-#   #   user_data = templatefile("./userdata.sh", {
-#   #     bucket_name = aws_s3_bucket.bucket.id
-#   #   })
-
-#   user_data_base64            = filebase64("${path.module}/userdata.sh")
-# #   user_data_replace_on_change = true
-# }
+  user_data_base64            = base64encode(data.template_file.user_data.rendered)
+  user_data_replace_on_change = true
+}
 
 resource "aws_route53_record" "necesse" {
   type = "A"
@@ -35,4 +31,11 @@ resource "aws_route53_record" "necesse" {
   name = "necesse"
   ttl = 300
   records = [aws_instance.necesse.public_ip]
+}
+
+data "template_file" "user_data" {
+  template = "${path.module}/userdata.sh"
+  vars = {
+    GAMENAME = "${var.game_name}"
+  }
 }

@@ -23,3 +23,9 @@ variable "hosted_zone" {
   type        = string
   default     = "aws.rgrs.xyz."
 }
+
+variable "game_name" {
+  description = "What game from LinuxGSM are we installing?"
+  type = string
+  default = "necesse"
+}
