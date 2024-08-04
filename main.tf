@@ -25,7 +25,7 @@ resource "aws_instance" "necesse" {
   #     bucket_name = aws_s3_bucket.bucket.id
   #   })
 
-  user_data_base64            = filebase64("${path.module}/userdata.sh")
+  user_data_base64            = filebase64("${path.module}/cloud_init.yaml")
   user_data_replace_on_change = true
 }
 

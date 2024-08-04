@@ -1,0 +1,51 @@
+#cloud-config
+groups:
+  - steam
+users:
+  - name: steam
+    gecos: steam
+    primary_group: steam
+    sudo:  ALL=(ALL) NOPASSWD:ALL
+    groups: users
+
+apt_sources:
+ # Enable "multiverse" repos
+ - source: deb $MIRROR $RELEASE multiverse
+ - source: deb-src $MIRROR $RELEASE multiverse
+ - source: deb $MIRROR $RELEASE-updates multiverse
+ - source: deb-src $MIRROR $RELEASE-updates multiverse
+ - source: deb http://security.ubuntu.com/ubuntu $RELEASE-security multiverse
+ - source: deb-src http://security.ubuntu.com/ubuntu $RELEASE-security multiverse
+
+ # Run 'apt-get update' on first boot
+apt_update: true
+ 
+# Run 'apt-get upgrade' on first boot
+apt_upgrade: true
+ 
+# Reboot after package install/upgrade if needed (e.g. if kernel update)
+# normally it's a good idea to set this to True, but let's set it to false until things settle down
+apt_reboot_if_required: False
+ 
+# Install additional packages on first boot
+packages:
+  - steamcmd
+
+bootcmd:
+  - cd /usr/local/bin && curl -Lo linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh necserver
+  - necserver install
+
+write_files:
+- content: |
+    SERVER = {
+            port = 14159,                           // [0 - 65535] Server default port
+            slots = 10,                             // [1 - 250] Server default slots
+            password = password,                          // Leave blank for no password
+            pauseWhenEmpty = true,
+            giveClientsPower = true,        // If true, clients will have much more power over what hits them, their position etc
+            logging = true,                         // If true, will create log files for each server start
+            language = en,
+            zipSaves = false,                       // If true, will create new saves in a zipfile
+            MOTD = "Welcome!",                      // Message of the day
+      }
+  path: /home/ubuntu/server.cfg
