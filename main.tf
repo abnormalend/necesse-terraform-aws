@@ -28,3 +28,11 @@ resource "aws_instance" "necesse" {
   user_data_base64            = filebase64("${path.module}/userdata.sh")
   user_data_replace_on_change = true
 }
+
+resource "aws_route53_record" "necesse" {
+  type = "A"
+  zone_id = data.aws_route53_zone.rgrs_zone.id
+  name = "necesse"
+  ttl = 300
+  records = [aws_instance.necesse.public_ip]
+}
