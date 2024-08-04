@@ -2,18 +2,18 @@ resource "aws_instance" "necesse" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
 
-#   instance_market_options {
-#     market_type = "spot"
-#     spot_options {
-#       max_price                      = 0.03
-#       instance_interruption_behavior = "stop"
-#       spot_instance_type             = "persistent"
-#     }
-#   }
+  instance_market_options {
+    market_type = "spot"
+    spot_options {
+      max_price                      = 0.03
+      instance_interruption_behavior = "stop"
+      spot_instance_type             = "persistent"
+    }
+  }
 
   tags = {
     Name = "necesseServer"
-    # env_s3bucket = aws_s3_bucket.bucket.id
+    env_s3bucket = aws_s3_bucket.bucket.id
     dns_hostname = "necesse"
     dns_zone     = var.hosted_zone
   }
