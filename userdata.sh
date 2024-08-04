@@ -51,5 +51,6 @@ Restart=no
 WantedBy=multi-user.target
 
 EOF
+systemctl daemon-reload
 systemctl enable necesse.service
 systemctl start necess.service
