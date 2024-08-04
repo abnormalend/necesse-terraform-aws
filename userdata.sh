@@ -33,24 +33,9 @@ cat <<EOF > /home/ubuntu/serverfiles/cfg/server.cfg
       }
 EOF
 
-cat <<EOF > /etc/systemd/system/necesse.service
-[Unit]
-Description=Necesse Dedicated Server
-After=network.target
+# Install cron job for restart
+new_cron_job="@reboot /home/ubuntu/necserver monitor > /dev/null 2>&1"
+(crontab -l; echo "$new_cron_job") | crontab -
 
-[Service]
-PrivateTmp=true
-Type=simple
-User=ubuntu
-WorkingDirectory=/home/ubuntu
-ExecStart=/home/ubuntu/necserver start
-ExecStop=/home/ubuntu/necserver stop
-Restart=no
-
-[Install]
-WantedBy=multi-user.target
-
-EOF
-systemctl daemon-reload
-systemctl enable necesse.service
-systemctl start necesse.service
+# Start the game server
+su - ubuntu /home/ubuntu/necserver start
