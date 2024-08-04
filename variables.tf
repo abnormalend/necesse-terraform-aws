@@ -29,3 +29,8 @@ variable "game_name" {
   type = string
   default = "necesse"
 }
+
+variable "game_password" {
+  description = "Password to connect to the game server"
+  type = string
+}

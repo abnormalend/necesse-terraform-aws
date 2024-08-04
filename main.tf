@@ -37,5 +37,6 @@ data "template_file" "user_data" {
   template = file("${path.module}/userdata.sh")
   vars = {
     GAMENAME = "${var.game_name}"
+    GAMEPASSWORD = var.game_password
   }
 }
