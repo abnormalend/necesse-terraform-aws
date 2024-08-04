@@ -34,7 +34,7 @@ resource "aws_route53_record" "necesse" {
 }
 
 data "template_file" "user_data" {
-  template = "${path.module}/userdata.sh"
+  template = file("${path.module}/userdata.sh")
   vars = {
     GAMENAME = "${var.game_name}"
   }
