@@ -86,7 +86,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_access" {
   policy_arn = data.aws_iam_policy.cloudwatch_policy.arn
 }
 
-resource "aws_iam_role_policy_attachment" "ssm_access" {
+resource "aws_iam_role_policy_attachment" "ssm_managed" {
   role = aws_iam_role.necesse_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonSSMManagedInstanceCore"
 }
