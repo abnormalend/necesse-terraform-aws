@@ -13,7 +13,7 @@ resource "aws_instance" "necesse" {
 
   tags = {
     Name = "necesseServer"
-    env_s3bucket = aws_s3_bucket.bucket.id
+    # env_s3bucket = aws_s3_bucket.bucket.id
     dns_hostname = "necesse"
     dns_zone     = var.hosted_zone
   }
